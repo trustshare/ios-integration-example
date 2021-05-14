@@ -72,7 +72,7 @@ struct TrustshareSDKView: UIViewRepresentable {
   func makeURL() -> URL {
     var components = URLComponents()
     components.scheme = "https"
-    components.host = "\(subdomain).trustshare.co" // TODO: change this to trustshare.co
+    components.host = "\(subdomain).trustshare.co"
     components.path = "/mobile-sdk"
     components.queryItems = []
     addQueryParams(components: &components)
@@ -81,10 +81,9 @@ struct TrustshareSDKView: UIViewRepresentable {
     return url;
   }
 
-  // Add thr query params to allow trustshare to process the intended action correctly.
+  // Add the query params to allow trustshare to process the intended action correctly.
   private func addQueryParams(components: inout URLComponents) {
     if case .Checkout(let checkout) = action {
-      print("Checkout!")
       components.queryItems! += [
         URLQueryItem(name: "type", value: "checkout")
       ]
@@ -148,7 +147,6 @@ struct TrustshareSDKView: UIViewRepresentable {
     webView.configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
     webView.configuration.preferences.javaScriptEnabled = true
     let url = makeURL()
-    print(url)
     webView.load(URLRequest(url: url))
     return webView;
   }
