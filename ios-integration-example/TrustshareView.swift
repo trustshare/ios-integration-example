@@ -8,16 +8,18 @@ import WebKit
 // A class to handle messages from trustshare to receive data back into the iOS app.
 class ContentController: NSObject, WKScriptMessageHandler {
   let cb: (_ args: Any) -> Void
+  let handler: String
   var webView: WKWebView?
 
-  init(cb: @escaping (_ args: Any) -> Void, webView: WKWebView) {
+  init(cb: @escaping (_ args: Any) -> Void, webView: WKWebView, handler: String) {
     self.cb = cb
     self.webView = webView
+    self.handler = handler
   }
 
   // This is where the received messages from the webview are handled.
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-    if message.name == "jsHandler" {
+    if message.name == handler {
       cb(message.body)
     }
     if message.name == "closeWebView" {
@@ -59,12 +61,14 @@ struct TrustshareSDKView: UIViewRepresentable {
   private let cb: (_ args: Any) -> Void
   private let action: Action
   private let subdomain: String
+  private let handlerName: String
   private let webView = WKWebView();
   private let uiDelegate = WVUiDelegate();
 
-  init(action: Action, subdomain: String, cb: @escaping (_ args: Any) -> Void) {
+  init(action: Action, subdomain: String, handlerName: String = "trustshareHandler", cb: @escaping (_ args: Any) -> Void) {
     self.cb = cb
     self.subdomain = subdomain
+    self.handlerName = handlerName
     self.action = action
   }
 
@@ -74,7 +78,9 @@ struct TrustshareSDKView: UIViewRepresentable {
     components.scheme = "https"
     components.host = "\(subdomain).trustshare.co"
     components.path = "/mobile-sdk"
-    components.queryItems = []
+    components.queryItems = [
+      URLQueryItem(name: "handlerName", value: handlerName)
+    ]
     addQueryParams(components: &components)
     components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
     let url = components.url!
@@ -142,11 +148,12 @@ struct TrustshareSDKView: UIViewRepresentable {
     let config = WKWebViewConfiguration()
     webView.customUserAgent = "iOSTrustshareSDK"
     webView.uiDelegate = uiDelegate;
-    webView.configuration.userContentController.add(ContentController(cb: cb, webView: webView), name: "jsHandler")
+    webView.configuration.userContentController.add(ContentController(cb: cb, webView: webView, handler: handlerName), name: handlerName)
     webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
     webView.configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
     webView.configuration.preferences.javaScriptEnabled = true
     let url = makeURL()
+    print(url)
     webView.load(URLRequest(url: url))
     return webView;
   }

@@ -44,6 +44,7 @@ struct ContentView: View {
     TrustshareSDKView(
         action: Action.Checkout(checkoutArgs),
         subdomain: "demo", // This is your subdomain.
+        handlerName:  "trustshareHandler", // Custom handler name, defaulted to "trustshareHandler"
         cb: callbackFunction // Will be called on state updates.
     )
   }
