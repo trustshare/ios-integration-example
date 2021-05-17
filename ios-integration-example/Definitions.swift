@@ -13,12 +13,17 @@ enum Action {
   case Release(ReleaseArgs)
 }
 
+enum Currency: String {
+  case gbp, usd, eur // For usd payments please contact support (support@trustshare.co)
+}
+
 struct CheckoutArgs {
   var to: String?
   let from: String?
   let amount: String?
   let depositAmount: String?
   let description: String?
+  let currency: Currency?
   subscript(dynamicMember member: String) -> String? {
     let props = [
       "amount": self.amount,
@@ -34,13 +39,15 @@ struct CheckoutArgs {
       from: String? = nil,
       amount: String? = nil,
       depositAmount: String? = nil,
-      description: String? = nil
+      description: String? = nil,
+      currency: Currency? = Currency.gbp
   ) {
     self.to = to
     self.from = from
     self.amount = amount
     self.depositAmount = depositAmount
     self.description = description
+    self.currency = currency
   }
 }
 
@@ -61,6 +68,12 @@ struct ReleaseArgs {
 
 struct DisputeArgs {
   var token: String
+}
+
+struct CheckoutState: Codable {
+  let token: String?
+  let paymentToken: String?
+  let status: String
 }
 
 

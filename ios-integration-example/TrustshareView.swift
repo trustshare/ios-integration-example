@@ -94,6 +94,13 @@ struct TrustshareSDKView: UIViewRepresentable {
         URLQueryItem(name: "type", value: "checkout")
       ]
 
+      if ((checkout.amount) != nil) {
+        components.queryItems?.append(
+          URLQueryItem(name: "currency", value: checkout.currency.map {
+            $0.rawValue
+          })
+        )
+      }
       ["amount", "to", "depositAmount", "from", "description"].forEach { lookup in
         let value = checkout[dynamicMember: lookup]
         if ((value) != nil) {
