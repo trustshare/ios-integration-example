@@ -36,26 +36,39 @@ let checkoutArgs = CheckoutArgs(
 //)
 
 struct ContentView: View {
+  @State private var showTrustshareWebView = false
+
   // This function is called each time the state of the Action is updated.
   func callbackFunction(message: WKScriptMessage) {
-    print(message)
     guard let bodyString = message.body as? String, let bodyData = bodyString.data(using: .utf8) else {
       fatalError()
     }
 
+    if (bodyString == "trustshareCloseWebView") {
+      self.showTrustshareWebView = false;
+    }
+
     // Use the appropriate struct for decoding the data. e.g For a checkout action, use the Checkout state struct,
-    let bodyStruct = try? JSONDecoder().decode(DisputeState.self, from: bodyData)
+    let bodyStruct = try? JSONDecoder().decode(CheckoutState.self, from: bodyData)
     print("Converted response from message....")
     print(bodyStruct)
   }
 
   var body: some View {
-    TrustshareSDKView(
-        action: Action.Checkout(checkoutArgs),
-        subdomain: "demo", // This is your subdomain.
-        handlerName: "trustshareHandler", // Custom handler name, defaulted to "trustshareHandler"
-        cb: callbackFunction // Will be called on state updates.
-    )
+    if (showTrustshareWebView) {
+      TrustshareSDKView(
+          action: Action.Checkout(checkoutArgs),
+          subdomain: "demo", // This is your subdomain.
+          handlerName: "trustshareHandler", // Custom handler name, defaulted to "trustshareHandler"
+          cb: callbackFunction // Will be called on state updates.
+      )
+    } else {
+      Button(action: {
+        self.showTrustshareWebView = true
+      }) {
+        Text("trustshare iOS example")
+      }
+    }
   }
 }
 

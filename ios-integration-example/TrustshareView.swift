@@ -19,12 +19,8 @@ class ContentController: NSObject, WKScriptMessageHandler {
 
   // This is where the received messages from the webview are handled.
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-    if message.name == handler {
+    if (message.name == handler) {
       cb(message)
-    }
-    if message.name == "closeWebView" {
-      webView?.removeFromSuperview()
-      webView = nil;
     }
   }
 }
