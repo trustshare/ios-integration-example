@@ -7,11 +7,11 @@ import WebKit
 
 // A class to handle messages from trustshare to receive data back into the iOS app.
 class ContentController: NSObject, WKScriptMessageHandler {
-  let cb: (_ args: Any) -> Void
+  let cb: (_ args: WKScriptMessage) -> ()
   let handler: String
   var webView: WKWebView?
 
-  init(cb: @escaping (_ args: Any) -> Void, webView: WKWebView, handler: String) {
+  init(cb: @escaping (_ message: WKScriptMessage) -> (), webView: WKWebView, handler: String) {
     self.cb = cb
     self.webView = webView
     self.handler = handler
@@ -20,7 +20,7 @@ class ContentController: NSObject, WKScriptMessageHandler {
   // This is where the received messages from the webview are handled.
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
     if message.name == handler {
-      cb(message.body)
+      cb(message)
     }
     if message.name == "closeWebView" {
       webView?.removeFromSuperview()
@@ -58,14 +58,14 @@ class WVUiDelegate: NSObject, WKNavigationDelegate, WKUIDelegate {
 }
 
 struct TrustshareSDKView: UIViewRepresentable {
-  private let cb: (_ args: Any) -> Void
+  private let cb: (_ args: WKScriptMessage) -> ()
   private let action: Action
   private let subdomain: String
   private let handlerName: String
   private let webView = WKWebView();
   private let uiDelegate = WVUiDelegate();
 
-  init(action: Action, subdomain: String, handlerName: String = "trustshareHandler", cb: @escaping (_ args: Any) -> Void) {
+  init(action: Action, subdomain: String, handlerName: String = "trustshareHandler", cb: @escaping (_ args: WKScriptMessage) -> ()) {
     self.cb = cb
     self.subdomain = subdomain
     self.handlerName = handlerName
@@ -76,7 +76,7 @@ struct TrustshareSDKView: UIViewRepresentable {
   func makeURL() -> URL {
     var components = URLComponents()
     components.scheme = "https"
-    components.host = "\(subdomain).trustshare.co"
+    components.host = "\(subdomain).lvh.me" // TODO: make this trustshare.co
     components.path = "/mobile-sdk"
     components.queryItems = [
       URLQueryItem(name: "handlerName", value: handlerName)
@@ -101,6 +101,7 @@ struct TrustshareSDKView: UIViewRepresentable {
           })
         )
       }
+
       ["amount", "to", "depositAmount", "from", "description"].forEach { lookup in
         let value = checkout[dynamicMember: lookup]
         if ((value) != nil) {

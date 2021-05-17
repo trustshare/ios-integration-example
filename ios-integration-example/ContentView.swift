@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import WebKit
 
 // Example arguments to the SDK view.
 let checkoutArgs = CheckoutArgs(
@@ -36,15 +37,24 @@ let returnArgs = ReturnArgs(
 
 struct ContentView: View {
   // This function is called each time the state of the Action is updated.
-  func callbackFunction(args: Any) {
-    print(args)
+  func callbackFunction(message: WKScriptMessage) {
+    print(message)
+    guard let bodyString = message.body as? String, let bodyData = bodyString.data(using: .utf8) else {
+      fatalError()
+    }
+
+    // Use the appropriate struct for decoding the data. e.g For a checkout action, use the Checkout state struct,
+    let bodyStruct = try? JSONDecoder().decode(DisputeState.self, from: bodyData)
+    print("Converted response from message....")
+    print(bodyStruct)
   }
 
   var body: some View {
     TrustshareSDKView(
-        action: Action.Checkout(checkoutArgs),
+//        action: Action.Checkout(checkoutArgs),
+        action: Action.Dispute(disputeArgs),
         subdomain: "demo", // This is your subdomain.
-        handlerName:  "trustshareHandler", // Custom handler name, defaulted to "trustshareHandler"
+        handlerName: "trustshareHandler", // Custom handler name, defaulted to "trustshareHandler"
         cb: callbackFunction // Will be called on state updates.
     )
   }

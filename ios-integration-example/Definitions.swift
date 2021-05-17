@@ -70,10 +70,16 @@ struct DisputeArgs {
   var token: String
 }
 
+
 struct CheckoutState: Codable {
   let token: String?
   let paymentToken: String?
   let status: String
 }
 
+struct DisputeState: Codable {
+  let token: String
+  let reason: String?
+  let status: String
+}
 

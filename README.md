@@ -9,7 +9,7 @@ The app uses a `WebView` to load a page specifically developed for mobile integr
 
 ### Actions
 
-The `mobile-sdk` route can handle a variety of `Actions` which can be implemented. The enum of `Actions` is below. 
+The `mobile-sdk` route can handle a variety of [Actions](/ios-integration-example/Definitions.swift#L8-L14) which can be implemented. The enum of `Actions` is below. 
 
 ```swift
 Checkout
@@ -19,7 +19,7 @@ Return
 Release
 ```
 
-
+### State structs
 
 ### Query strings
 The webview should use a query string to communicate to the webview which [Action](/ios-integration-example/Definitions.swift#L8-L14) is intended to carry out.
