@@ -74,12 +74,32 @@ struct DisputeArgs {
 struct CheckoutState: Codable {
   let token: String?
   let paymentToken: String?
-  let status: String
+  let status: String // checkout_not_initiated, login_not_initiated, second_factor_not_provided, transaction_initiated, manual_payment_indicated, payment_made
 }
 
 struct DisputeState: Codable {
   let token: String
   let reason: String?
-  let status: String
+  let status: String // dispute_not_initiated, login_not_initiated, second_factor_not_provided, dispute_raised
 }
 
+struct TopupState: Codable {
+  let token: String
+  let paymentToken: String?
+  let amount: String?
+  let status: String // topup_not_initiated, login_not_initiated, second_factor_not_provided, manual_payment_indicated, payment_made
+}
+
+struct ReleaseState: Codable {
+  let token: String
+  let paymentToken: String?
+  let amount: String?
+  let status: String // release_not_initiated, login_not_initiated, second_factor_not_provided, release_made
+}
+
+struct ReturnState: Codable {
+  let token: String
+  let paymentToken: String?
+  let amount: String?
+  let status: String // return_not_initiated, login_not_initiated, second_factor_not_provided, return_made
+}

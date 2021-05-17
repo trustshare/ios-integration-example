@@ -6,6 +6,22 @@ This example shows how an iOS application can be integrated with the trustshare 
 
 The app uses a `WebView` to load a page specifically developed for mobile integration. 
 
+Please refer to the [web sdk documentation](https://docs.trustshare.co/sdk/web-sdk) for further information and definitions for the various actions that can be carried out.
+
+### Getting started
+
+Look at the [ContentView.swift](/ios-integration-example/ContentView.swift) to see how we implement a view with the necessary parameters.
+
+### The WebView
+The webview loads a route at `https://${YOUR_SUBDOMAIN}.trustshare.co/mobile-sdk`.
+
+The url requires a query parameter of at least `type` and `handlerName`.
+
+The `type` parameter tells us what sort of `Action` you would like to do and the `handlerName` tells us where to post the state updates to.
+
+The resulting url should look similar to this: 
+
+`https://demo.trustshare.co/mobile-sdk?type=checkout&handlerName=myHandlerName`.
 
 ### Actions
 
@@ -19,7 +35,13 @@ Return
 Release
 ```
 
-### State structs
+Each action has its own required parameters defined in their respective structs. See [Definitions](/ios-integration-example/Definitions.swift) for types.
+
+### State updates
+The example iOS app receives state updates from the webview using the [ContentController](/ios-integration-example/TrustshareView.swift#L9) class. 
+If the message name is the same as the provided handler, which defaults to `"trustshareHandler"`, the message is passed on to the provided callback.
+
+From here, we can use a `JSONDecoder` to decode the json messages and pass them into structs.
 
 ### Query strings
 The webview should use a query string to communicate to the webview which [Action](/ios-integration-example/Definitions.swift#L8-L14) is intended to carry out.
@@ -27,10 +49,11 @@ In this example, the query string is built up from the arguments passed to the c
 
 ### Custom user agent
 The webview needs to set a custom user agent of `"iOSTrustshareSDK"`, otherwise the page will not load.
-This can be done with the following code
+
+This can be done with the following code: 
 
 ```swift
-  webView.customUserAgent = "iOSTrustshareSDK"
+webView.customUserAgent = "iOSTrustshareSDK"
 ```
 
 [See here](/ios-integration-example/TrustshareView.swift#L149) for an example.

@@ -16,24 +16,24 @@ let checkoutArgs = CheckoutArgs(
     description: "Here is a description for the checkout"
 );
 
-let topupArgs = TopupArgs(
-    token: "D9SyFaZThQ2mdJnK",
-    amount: "10000"
-)
+//let topupArgs = TopupArgs(
+//    token: "D9SyFaZThQ2mdJnK",
+//    amount: "10000"
+//)
 
-let releaseArgs = ReleaseArgs(
-    token: "D9SyFaZThQ2mdJnK",
-    amount: "100"
-)
+//let releaseArgs = ReleaseArgs(
+//    token: "D9SyFaZThQ2mdJnK",
+//    amount: "100"
+//)
 
-let disputeArgs = DisputeArgs(
-    token: "D9SyFaZThQ2mdJnK"
-)
+//let disputeArgs = DisputeArgs(
+//    token: "D9SyFaZThQ2mdJnK"
+//)
 
-let returnArgs = ReturnArgs(
-    token: "D9SyFaZThQ2mdJnK",
-    amount: "100"
-)
+//let returnArgs = ReturnArgs(
+//    token: "D9SyFaZThQ2mdJnK",
+//    amount: "100"
+//)
 
 struct ContentView: View {
   // This function is called each time the state of the Action is updated.
@@ -51,8 +51,7 @@ struct ContentView: View {
 
   var body: some View {
     TrustshareSDKView(
-//        action: Action.Checkout(checkoutArgs),
-        action: Action.Dispute(disputeArgs),
+        action: Action.Checkout(checkoutArgs),
         subdomain: "demo", // This is your subdomain.
         handlerName: "trustshareHandler", // Custom handler name, defaulted to "trustshareHandler"
         cb: callbackFunction // Will be called on state updates.
