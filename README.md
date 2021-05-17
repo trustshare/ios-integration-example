@@ -56,6 +56,9 @@ This can be done with the following code:
 webView.customUserAgent = "iOSTrustshareSDK"
 ```
 
+### Closing the webview
+When the webview is close, a handler will be called to let the iOS app know. The message will be a `"trustshareCloseWebView"` message which is passed into the callback. This can be used to toggle the webview.
+
 [See here](/ios-integration-example/TrustshareView.swift#L149) for an example.
 
 ## Help and support
