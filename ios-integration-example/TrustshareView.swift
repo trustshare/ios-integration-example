@@ -72,7 +72,7 @@ struct TrustshareSDKView: UIViewRepresentable {
   func makeURL() -> URL {
     var components = URLComponents()
     components.scheme = "https"
-    components.host = "\(subdomain).trustshare.co"
+    components.host = "\(subdomain).lvh.me"
     components.path = "/mobile-sdk"
     components.queryItems = [
       URLQueryItem(name: "handlerName", value: handlerName)
@@ -92,9 +92,9 @@ struct TrustshareSDKView: UIViewRepresentable {
 
       if ((checkout.amount) != nil) {
         components.queryItems?.append(
-          URLQueryItem(name: "currency", value: checkout.currency.map {
-            $0.rawValue
-          })
+            URLQueryItem(name: "currency", value: checkout.currency.map {
+              $0.rawValue
+            })
         )
       }
 
@@ -150,7 +150,10 @@ struct TrustshareSDKView: UIViewRepresentable {
   // Make a webview to show the relevant trustshare action.
   func makeUIView(context: Context) -> WKWebView {
     let config = WKWebViewConfiguration()
-    webView.customUserAgent = "iOSTrustshareSDK"
+    let customUserAgent: String = config.applicationNameForUserAgent != nil
+        ? config.applicationNameForUserAgent! + "-trustshare-sdk"
+        : "-trustshare-sdk"
+    webView.customUserAgent = customUserAgent;
     webView.uiDelegate = uiDelegate;
     webView.configuration.userContentController.add(ContentController(cb: cb, webView: webView, handler: handlerName), name: handlerName)
     webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
