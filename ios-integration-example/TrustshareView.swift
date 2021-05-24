@@ -72,7 +72,7 @@ struct TrustshareSDKView: UIViewRepresentable {
   func makeURL() -> URL {
     var components = URLComponents()
     components.scheme = "https"
-    components.host = "\(subdomain).lvh.me"
+    components.host = "\(subdomain).trustshare.co"
     components.path = "/mobile-sdk"
     components.queryItems = [
       URLQueryItem(name: "handlerName", value: handlerName)
