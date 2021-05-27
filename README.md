@@ -48,12 +48,15 @@ The webview should use a query string to communicate to the webview which [Actio
 In this example, the query string is built up from the arguments passed to the component. [See here](ios-integration-example/TrustshareView.swift#L91) for an example. 
 
 ### Custom user agent
-The webview needs to set a custom user agent of `"iOSTrustshareSDK"`, otherwise the page will not load.
+The webview needs to set a custom user agent containing the string `"trustshare-sdk/ios"`, otherwise the page will not load.
 
 This can be done with the following code: 
 
 ```swift
-webView.customUserAgent = "iOSTrustshareSDK"
+let customUserAgent: String = config.applicationNameForUserAgent != nil
+    ? config.applicationNameForUserAgent! + " trustshare-sdk/ios/1.0"
+    : " trustshare-sdk/ios/1.0"
+webView.customUserAgent = customUserAgent;
 ```
 
 ### Closing the webview
