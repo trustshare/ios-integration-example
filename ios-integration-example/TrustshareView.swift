@@ -152,7 +152,7 @@ struct TrustshareSDKView: UIViewRepresentable {
     let config = WKWebViewConfiguration()
     let customUserAgent: String = config.applicationNameForUserAgent != nil
         ? config.applicationNameForUserAgent! + " trustshare-sdk/ios/1.0"
-        : " trustshare-sdk/ios/1.0"
+        : "trustshare-sdk/ios/1.0"
     webView.customUserAgent = customUserAgent;
     webView.uiDelegate = uiDelegate;
     webView.configuration.userContentController.add(ContentController(cb: cb, webView: webView, handler: handlerName), name: handlerName)
