@@ -88,3 +88,11 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+.env
+# Server files
+server/.env
+server/node_modules
+
+.vscode
+.DS_Store
