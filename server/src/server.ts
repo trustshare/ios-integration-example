@@ -43,7 +43,7 @@ fastify.get('/createVerificationIntent', async (request, reply) => {
   // curl -X GET http://localhost:9987/createVerificationIntent
   reply.type('application/json').code(200);
   if (res.api.v1.createVerification.client_secret) {
-    // Payment Intents have client secrets
+    // Verification Intents have client secrets
     return {
       client_secret: res.api.v1.createVerification.client_secret,
     };
