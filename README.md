@@ -10,7 +10,7 @@ Please refer to the [web sdk documentation](https://docs.trustshare.io/guides/sd
 
 ### Getting started
 
-Clone the repo and cd into the server directory.
+Clone the repo and change into the `server` directory.
 
 Create a `.env` file and add the following:
 
