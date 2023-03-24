@@ -46,7 +46,7 @@ If the message name is the same as the provided handler, which defaults to `"tru
 From here, we can use a `JSONDecoder` to decode the json messages and pass them into structs.
 
 ### Closing the webview
-When the webview is close, a handler will be called to let the iOS app know. If the checkout has been successful, there will be a `project_id` and a `checkout_id` in the message.
+When the webview is closed, a handler will be called to let the iOS app know. If the checkout has been successful, there will be a `project_id` and a `checkout_id` in the message.
 
 ## Help and support
 
