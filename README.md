@@ -30,7 +30,7 @@ Open up the project in xCode and click build. It will open up a simulator with t
 
 ### The example app
 
-When the app launches, it will generate a create a payment intent by requesting a `client_secret` from the example server. The client secret is then used and load the webview with the url `https://checkout.trustshare.io`.
+When the app launches, it will generate a create a payment intent by requesting a `client_secret` from the example server. The client secret is then used and loaded into the webview with the url `https://checkout.trustshare.io`.
 
 ### The WebView
 The webview loads a route at `https://checkout.trustshare.io`, with your generated client secret on the end as a query parameter.
