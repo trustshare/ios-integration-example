@@ -58,7 +58,7 @@ struct TrustshareSDKView: UIViewRepresentable {
   private let handlerName: String
   private let webView = WKWebView();
   private let uiDelegate = WVUiDelegate();
-    private let clientSecret: String;
+  private let clientSecret: String;
 
   init(clientSecret: String, handlerName: String = "trustshareHandler", cb: @escaping (_ args: WKScriptMessage) -> ()) {
     self.cb = cb
